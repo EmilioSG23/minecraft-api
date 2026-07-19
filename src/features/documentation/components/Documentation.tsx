@@ -240,6 +240,29 @@ export function Documentation() {
 								https://github.com/anish-shanbhag/minecraft-api
 							</a>
 						</li>
+						<li>
+							<b>SkylaDev:</b> She created a concept for a Minecraft panorama on the web using
+							ThreeJS, so I decided to <span className="line-through">steal</span> *ejem* borrow her
+							code and adapt it into a React component. You can check her example{" "}
+							<a
+								href="https://panorama.skyla.moe/"
+								target="_blank"
+								rel="noreferrer"
+								className="text-blue-600 hover:underline"
+							>
+								here!
+							</a>
+							<br />
+							And the GitHub repository!:{" "}
+							<a
+								href="https://github.com/SkylaDev/threejs-minecraft-menu-panorama"
+								target="_blank"
+								rel="noreferrer"
+								className="text-blue-600 hover:underline"
+							>
+								https://github.com/SkylaDev/threejs-minecraft-menu-panorama
+							</a>
+						</li>
 					</ul>
 				</section>
 			</div>
