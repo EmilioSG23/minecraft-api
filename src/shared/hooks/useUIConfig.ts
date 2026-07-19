@@ -1,10 +1,11 @@
+import { config } from "@/config/config";
 import { useEffect, useState } from "react";
 import { getStorageItem, setStorageItem } from "../storage/utils";
 import { useBackgroundConfig } from "./useBackgroundConfig";
 import { useWindowSize } from "./useWindowSize";
 
 const GUI_SCALE_STORAGE_KEY = "gui-scale";
-const DEFAULT_GUI_SCALE = 2;
+const DEFAULT_GUI_SCALE = config.DEFAULT_GUI_SCALE;
 
 export function useUIConfig() {
 	const { blur, displayMode, panorama, changeBlur, changeDisplayMode, changePanorama } =

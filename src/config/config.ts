@@ -8,4 +8,5 @@ export const config = {
 	MAX_PANORAMA_SIZE: 16,
 	MIN_GUI_SCALE: 1,
 	MAX_GUI_SCALE: 4,
+	DEFAULT_GUI_SCALE: 4,
 };
