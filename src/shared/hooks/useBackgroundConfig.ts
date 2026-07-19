@@ -1,4 +1,5 @@
 /** Persistent background configuration hook used by the shared layout. */
+import { config } from "@/config/config";
 import { useEffect, useState } from "react";
 import { getStorageItem, setStorageItem } from "../storage/utils";
 
@@ -9,7 +10,7 @@ export const DISPLAY_MODE = {
 };
 
 const DEFAULT = {
-	panorama: 10,
+	panorama: config.MAX_PANORAMA_SIZE,
 	blur: 5,
 	displayMode: DISPLAY_MODE.SELECT,
 };
