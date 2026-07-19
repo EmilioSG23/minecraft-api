@@ -1,5 +1,6 @@
 /** Persistent background configuration hook used by the shared layout. */
 import { useEffect, useState } from "react";
+import { getStorageItem, setStorageItem } from "../storage/utils";
 
 /** Supported startup behaviors for panorama selection. */
 export const DISPLAY_MODE = {
@@ -20,34 +21,11 @@ const VALUES = {
 };
 
 /**
- * Reads a localStorage value while remaining safe during server rendering.
- *
- * @param key Storage key to read.
- * @param fallback Value returned when the key is not available.
- * @returns Persisted string value or the fallback.
- */
-function getStorageItem(key: string, fallback: string): string {
-	if (typeof window === "undefined") return fallback;
-	return window.localStorage.getItem(key) ?? fallback;
-}
-
-/**
- * Persists a string value in localStorage when running in the browser.
- *
- * @param key Storage key to write.
- * @param value Value to persist.
- */
-function setStorageItem(key: string, value: string): void {
-	if (typeof window === "undefined") return;
-	window.localStorage.setItem(key, value);
-}
-
-/**
  * Handles panorama, blur and display mode persisted configuration.
  *
  * @returns Current background settings together with their update callbacks.
  */
-export function useConfigBackground() {
+export function useBackgroundConfig() {
 	const [panorama, setPanorama] = useState<number>(DEFAULT.panorama);
 	const [displayMode, setDisplayMode] = useState<string>(DEFAULT.displayMode);
 	const [blur, setBlur] = useState<number>(DEFAULT.blur);

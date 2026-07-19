@@ -4,9 +4,9 @@
 import { ConfigButton } from "@/shared/components/buttons/ConfigButton";
 import { GitHubButton } from "@/shared/components/buttons/GitHubButton";
 import { Header } from "@/shared/components/Header";
-import { useConfigBackground } from "@/shared/hooks/useConfigBackground";
 import { createContext, useContext, useEffect } from "react";
 import MinecraftPanorama from "../components/panorama/MinecraftPanorama";
+import { useUIConfig } from "../hooks/useUIConfig";
 
 /**
  * Plays the selector sound effect when the user clicks links or buttons.
@@ -33,10 +33,12 @@ function SelectionSoundEffect() {
 }
 
 /** Background manipulation callbacks exposed to child render props. */
-export interface BackgroundConfig {
+export interface UIConfig {
+	guiScale: number;
 	changePanorama: (panorama: number) => void;
 	changeBlur: (blur: number) => void;
 	changeDisplayMode: (displayMode: string) => void;
+	changeGuiScale: (guiScale: number) => void;
 }
 
 interface LayoutProps {
@@ -45,7 +47,7 @@ interface LayoutProps {
 	childrenWidth?: string;
 }
 
-const BackgroundConfigContext = createContext<BackgroundConfig | null>(null);
+const UIConfigContext = createContext<UIConfig | null>(null);
 
 /**
  * Wraps route content with the common app chrome and background controls.
@@ -56,17 +58,32 @@ const BackgroundConfigContext = createContext<BackgroundConfig | null>(null);
  * @returns Shared application layout.
  */
 export function Layout({ children, className = "", childrenWidth = "max-w-6xl" }: LayoutProps) {
-	const { panorama, blur, displayMode, changePanorama, changeBlur, changeDisplayMode } =
-		useConfigBackground();
+	const {
+		panorama,
+		blur,
+		displayMode,
+		changePanorama,
+		changeBlur,
+		changeDisplayMode,
+		guiScale,
+		maxGuiScale,
+		changeGuiScale,
+	} = useUIConfig();
 
-	const config: BackgroundConfig = { changePanorama, changeBlur, changeDisplayMode };
+	const config: UIConfig = {
+		changePanorama,
+		changeBlur,
+		changeDisplayMode,
+		changeGuiScale,
+		guiScale,
+	};
 
 	return (
-		<BackgroundConfigContext.Provider value={config}>
-			<Header />
+		<UIConfigContext.Provider value={config}>
+			<MinecraftPanorama panorama={panorama} blur={blur} />
+			<SelectionSoundEffect />
+			<Header guiScale={guiScale} />
 			<main className={`relative isolate overflow-x-hidden font-main ${className}`.trim()}>
-				<SelectionSoundEffect />
-				<MinecraftPanorama panorama={panorama} blur={blur} />
 				<main className="relative z-10 w-full flex items-center justify-center my-4! py-4!">
 					<div className={`w-full ${childrenWidth} items-center justify-center flex`}>
 						{children}
@@ -75,14 +92,17 @@ export function Layout({ children, className = "", childrenWidth = "max-w-6xl" }
 				<ConfigButton
 					panorama={panorama}
 					blur={blur}
+					display={displayMode}
+					guiScale={guiScale}
+					maxGuiScale={maxGuiScale}
+					setGuiScale={changeGuiScale}
 					setPanorama={changePanorama}
 					setBlur={changeBlur}
-					display={displayMode}
 					setDisplayMode={changeDisplayMode}
 				/>
-				<GitHubButton />
+				<GitHubButton guiScale={guiScale} />
 			</main>
-		</BackgroundConfigContext.Provider>
+		</UIConfigContext.Provider>
 	);
 }
 
@@ -93,7 +113,7 @@ export function Layout({ children, className = "", childrenWidth = "max-w-6xl" }
  * @returns Same configuration API exposed internally by the layout component.
  */
 export function useLayoutConfig() {
-	const config = useContext(BackgroundConfigContext);
+	const config = useContext(UIConfigContext);
 
 	if (!config) {
 		throw new Error("useLayoutConfig must be used inside Layout");

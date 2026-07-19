@@ -9,6 +9,7 @@ interface TerminalProps {
 	setPanorama: (value: number) => void;
 	setBlur: (value: number) => void;
 	setDisplayMode: (value: string) => void;
+	guiScale?: number;
 }
 
 /**
@@ -19,7 +20,7 @@ interface TerminalProps {
  * @param props.setDisplayMode Callback that changes the panorama selection mode.
  * @returns Terminal UI with history and command input.
  */
-export function Terminal({ setPanorama, setBlur, setDisplayMode }: TerminalProps) {
+export function Terminal({ setPanorama, setBlur, setDisplayMode, guiScale = 4 }: TerminalProps) {
 	const {
 		inputCommand,
 		setInputCommand,
@@ -59,20 +60,62 @@ export function Terminal({ setPanorama, setBlur, setDisplayMode }: TerminalProps
 
 	useChangeSection("terminal");
 
+	const guiScaleH2TextClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "text-[16px]";
+			case 2:
+				return "text-[18px]";
+			case 3:
+				return "text-[20px]";
+			default:
+				return "text-[24px]";
+		}
+	})();
+
+	const guiScaleInputTextClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "text-[14px]";
+			case 2:
+				return "text-[16px]";
+			case 3:
+				return "text-[18px]";
+			default:
+				return "text-[20px]";
+		}
+	})();
+
+	const guiScaleOutputTextClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "text-[10px]";
+			case 2:
+				return "text-[12px]";
+			case 3:
+				return "text-[14px]";
+			default:
+				return "text-[16px]";
+		}
+	})();
+
 	return (
 		<section className="flex flex-col bg-black/75 mx-auto w-full justify-center items-center mt-10 h-[82vh] xl:h-[85vh] border-4 border-gray-400 text-white">
-			<h2 className="flex-none text-white w-full border-b-4 border-gray-400 p-2! text-[16px] sm:text-[20px] lg:text-[24px] bg-gray-700 font-bold text-center">
+			<h2
+				className={`flex-none text-white w-full border-b-4 border-gray-400 p-2! ${guiScaleH2TextClassName} bg-gray-700 font-bold text-center`}
+			>
 				Minecraft API - Terminal
 			</h2>
 			<div ref={scrollRef} className="flex-1 w-full p-1! overflow-y-scroll text-left">
 				{displayCommands.map((display) => (
-					<article className="*:font-main! mb-1 text-[12px] sm:text-[16px]" key={display.id}>
+					<article className={`*:font-main! mb-1 ${guiScaleOutputTextClassName}`} key={display.id}>
 						<TerminalOutputRenderer output={display.content} />
 					</article>
 				))}
 			</div>
 			<input
-				className="flex-none bg-gray-900 bottom-0 text-white w-full border-t-4 border-gray-400 text-[16px] sm:text-[20px] p-2! focus:outline-none"
+				className={`flex-none bg-gray-900 bottom-0 text-white w-full border-t-4 border-gray-400
+					 ${guiScaleInputTextClassName} p-2! focus:outline-none`}
 				type="text"
 				placeholder="Write a command..."
 				value={inputCommand}

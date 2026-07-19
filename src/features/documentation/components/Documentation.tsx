@@ -2,6 +2,7 @@ import { API_URL } from "@/config/config";
 import { ApiDocsExplorer } from "@/features/documentation/components/ApiDocsExplorer";
 import { Container } from "@/shared/components/Container";
 import { useChangeSection } from "@/shared/hooks/useSection";
+import { useLayoutConfig } from "@/shared/layout/Layout";
 import Link from "next/link";
 
 interface CodeProps {
@@ -15,8 +16,25 @@ interface CodeProps {
  * @returns Formatted code snippet with action buttons.
  */
 function Code({ code }: CodeProps) {
+	const { guiScale } = useLayoutConfig() || { guiScale: 4 };
+
+	const guiScaleTextClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "text-[10px]";
+			case 2:
+				return "text-[10px]";
+			case 3:
+				return "text-[12px]";
+			default:
+				return "text-[12px]";
+		}
+	})();
+
 	return (
-		<code className="flex items-center justify-center p-2! text-white text-[10px] sm:text-[12px] bg-black border-2 border-purple-700 gap-x-2 rounded-xl">
+		<code
+			className={`flex items-center justify-center p-2! text-white ${guiScaleTextClassName} bg-black border-2 border-purple-700 gap-x-2 rounded-xl`}
+		>
 			<p className="overflow-x-auto">{code}</p>
 			<button
 				type="button"
@@ -55,14 +73,68 @@ function ApiUrlCode() {
  */
 export function Documentation() {
 	useChangeSection("documentation");
+	const { guiScale } = useLayoutConfig();
+
+	const guiScaleH1ClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "text-[20px]";
+			case 2:
+				return "text-[24px]";
+			case 3:
+				return "text-[28px]";
+			default:
+				return "text-[32px]";
+		}
+	})();
+
+	const guiScaleH2TextClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "text-[18px]";
+			case 2:
+				return "text-[20px]";
+			case 3:
+				return "text-[22px]";
+			default:
+				return "text-[24px]";
+		}
+	})();
+
+	const guiScaleTextClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "text-[14px]";
+			case 2:
+				return "text-[16px]";
+			case 3:
+				return "text-[18px]";
+			default:
+				return "text-[20px]";
+		}
+	})();
+
+	const guiScaleMaxWidthClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "max-w-2xl";
+			case 2:
+				return "max-w-3xl";
+			case 3:
+				return "max-w-4xl";
+			default:
+				return "max-w-5xl";
+		}
+	})();
+
 	return (
-		<Container className="max-h-[85vh]" width="w-full">
-			<h1 className="font-bold text-[20px] sm:text-[32px] text-center p-2!">
+		<Container className="max-h-[85vh]" width={guiScaleMaxWidthClassName}>
+			<h1 className={`font-bold ${guiScaleH1ClassName} text-center p-2!`}>
 				💎⛏️ Minecraft API - Documentation 💎⛏️
 			</h1>
 			<div className="overflow-x-hidden overflow-y-scroll px-2!">
 				<header className="flex flex-col items-center justify-center">
-					<p className="text-[14px] sm:text-[20px]">
+					<p className={guiScaleTextClassName}>
 						Welcome to the <b>Minecraft API</b> documentation. Here you will find all the
 						information you need to use our API and application.This API only make GET actions
 						because we only give information about Minecraft datas. You can access to the API using
@@ -70,8 +142,8 @@ export function Documentation() {
 					</p>
 					<ApiUrlCode />
 				</header>
-				<section className="text-[14px] sm:text-[20px]">
-					<h2 className="font-bold text-[24px] mt-5! underline">⚒ Introduction</h2>
+				<section className={guiScaleTextClassName}>
+					<h2 className={`font-bold ${guiScaleH2TextClassName} mt-5! underline`}>⚒ Introduction</h2>
 					<p>
 						The Minecraft API allows you to access various data types related to the game, such as
 						advancements, biomes, blocks, items, mobs, and structures. There are two components:
@@ -84,8 +156,8 @@ export function Documentation() {
 						, where you can inspect the available route templates and execute real requests.
 					</p>
 				</section>
-				<section className="text-[14px] sm:text-[20px]">
-					<h2 className="font-bold text-[24px] mt-5! underline">💎 API Routes</h2>
+				<section className={guiScaleTextClassName}>
+					<h2 className={`font-bold ${guiScaleH2TextClassName} mt-5! underline`}>💎 API Routes</h2>
 					<p>Here are the available API routes:</p>
 					<ul className="">
 						{["advancements", "biomes", "blocks", "items", "mobs", "structures"].map((entity) => {
@@ -129,8 +201,10 @@ export function Documentation() {
 					</ul>
 				</section>
 
-				<section className="text-[14px] sm:text-[20px]">
-					<h2 className="font-bold text-[24px] mt-5! underline">⚔️ Examples of Use</h2>
+				<section className={guiScaleTextClassName}>
+					<h2 className={`font-bold ${guiScaleH2TextClassName} mt-5! underline`}>
+						⚔️ Examples of Use
+					</h2>
 					<p>
 						You can test the Minecraft API directly from this page or open the dedicated endpoint
 						explorer in{" "}
@@ -149,8 +223,8 @@ export function Documentation() {
 					</div>
 				</section>
 
-				<section className="text-[14px] sm:text-[20px]">
-					<h2 className="font-bold text-[24px] mt-5! underline">⛏ Issues</h2>
+				<section className={guiScaleTextClassName}>
+					<h2 className={`font-bold ${guiScaleH2TextClassName} mt-5! underline`}>⛏ Issues</h2>
 					<p>
 						If you found some bugs with the application and the API, you can open a Issue in the{" "}
 						<a
@@ -165,8 +239,8 @@ export function Documentation() {
 					</p>
 				</section>
 
-				<section className="text-[14px] sm:text-[20px]">
-					<h2 className="font-bold text-[24px] mt-5! underline">👷 Community</h2>
+				<section className={guiScaleTextClassName}>
+					<h2 className={`font-bold ${guiScaleH2TextClassName} mt-5! underline`}>👷 Community</h2>
 					<p>
 						Because the application manages <b>large amounts</b> of data and variables of the
 						entities present in Minecraft, many of the data presented in the application{" "}
@@ -201,8 +275,10 @@ export function Documentation() {
 					</p>
 				</section>
 
-				<section className="text-[14px] sm:text-[20px]">
-					<h2 className="font-bold text-[24px] mt-5! underline">🏹 Special Thanks</h2>
+				<section className={guiScaleTextClassName}>
+					<h2 className={`font-bold ${guiScaleH2TextClassName} mt-5! underline`}>
+						🏹 Special Thanks
+					</h2>
 					<ul className="list-disc list-inside">
 						<li>
 							<b>Minecraft Wiki:</b> Some of the assets provides by the API has been obtained from

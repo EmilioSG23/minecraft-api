@@ -11,9 +11,8 @@ export function InformationSection() {
 	useChangeSection("information");
 
 	return (
-		<section>
+		<section className="w-full flex justify-center items-center">
 			<InformationHome />
 		</section>
 	);
 }
-

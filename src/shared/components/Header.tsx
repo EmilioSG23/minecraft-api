@@ -10,6 +10,7 @@ interface HeaderLinkProps {
 	icon: string;
 	text?: string;
 	width?: string;
+	guiScale?: number;
 }
 
 /**
@@ -28,15 +29,29 @@ function HeaderLink({
 	icon,
 	text,
 	width = "min-w-12 sm:min-w-32 lg:min-w-64",
+	guiScale = 4,
 }: HeaderLinkProps) {
 	const { activeSection } = useActiveSection();
 	const isActive = section === activeSection;
+
+	const guiScaleTextClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "text-[12px]";
+			case 2:
+				return "text-[16px]";
+			case 3:
+				return "text-[20px]";
+			default:
+				return "text-[24px]";
+		}
+	})();
 
 	return (
 		<Link
 			href={path}
 			className={`group ${width} flex items-center justify-center
-				text-white text-center text-[16px] xl:text-[24px]
+				text-white text-center ${guiScaleTextClassName}
 				${isActive ? "border-t-2 border-x-2 border-white h-full" : "h-3/4"} outline-2 outline-gray-400/25 py-1`}
 		>
 			<div
@@ -64,32 +79,69 @@ function HeaderLink({
  *
  * @returns Sticky navigation bar or null when the home section is active.
  */
-export function Header() {
+export function Header({ guiScale = 4 }: { guiScale?: number }) {
 	const { activeSection } = useActiveSection();
 
 	if (activeSection === "home") return null;
 
+	const guiScaleHeightClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "h-10";
+			case 2:
+				return "h-12";
+			case 3:
+				return "h-14";
+			default:
+				return "h-16";
+		}
+	})();
+
+	const guiScaleWidthClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "max-w-lg";
+			case 2:
+				return "max-w-xl";
+			case 3:
+				return "max-w-2xl";
+			default:
+				return "max-w-3xl";
+		}
+	})();
+
 	return (
-		<header className="sticky top-0 z-50 font-main">
-			<nav className="w-full flex items-center justify-center border-b-2 border-gray-400 bg-black/25">
-				<div className="flex justify-between items-end gap-x-4 max-w-6xl px-5 mx-auto h-8 sm:h-12 md:h-16">
-					<HeaderLink path="/" section="home" width="min-w-8" icon="fa-home" />
-					<div className="h-full flex items-end">
-						<HeaderLink
-							path="/information"
-							section="information"
-							icon="fa-list"
-							text="Information"
-						/>
-						<HeaderLink path="/terminal" section="terminal" icon="fa-terminal" text="Terminal" />
-						<HeaderLink
-							path="/documentation"
-							section="documentation"
-							icon="fa-book"
-							text="Documentation"
-						/>
-					</div>
-					<div className="w-8" />
+		<header className={`sticky top-0 z-50 font-main`}>
+			<nav className="w-full flex justify-center border-b-2 border-gray-400 bg-black/25">
+				<div
+					className={`w-full flex items-end
+						${guiScaleWidthClassName} px-5 gap-x-4 ${guiScaleHeightClassName}`}
+				>
+					<HeaderLink path="/" section="home" width="max-w-8" icon="fa-home" guiScale={guiScale} />
+					<HeaderLink
+						path="/information"
+						section="information"
+						width="flex-1"
+						icon="fa-list"
+						text="Information"
+						guiScale={guiScale}
+					/>
+					<HeaderLink
+						path="/terminal"
+						section="terminal"
+						width="flex-1"
+						icon="fa-terminal"
+						text="Terminal"
+						guiScale={guiScale}
+					/>
+					<HeaderLink
+						path="/documentation"
+						section="documentation"
+						width="flex-1"
+						icon="fa-book"
+						text="Documentation"
+						guiScale={guiScale}
+					/>
 				</div>
 			</nav>
 		</header>

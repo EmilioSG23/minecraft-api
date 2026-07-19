@@ -1,6 +1,6 @@
 /** Floating configuration button used to customize the background experience. */
 import { config } from "@/config/config";
-import { DISPLAY_MODE } from "@/shared/hooks/useConfigBackground";
+import { DISPLAY_MODE } from "@/shared/hooks/useBackgroundConfig";
 import { useEffect, useState } from "react";
 
 /**
@@ -20,9 +20,12 @@ interface ConfigButtonProps {
 	panorama: number;
 	blur: number;
 	display: string;
+	guiScale: number;
+	maxGuiScale?: number;
 	setPanorama: (value: number) => void;
 	setBlur: (value: number) => void;
 	setDisplayMode: (value: string) => void;
+	setGuiScale: (value: number) => void;
 }
 
 /**
@@ -40,9 +43,12 @@ export function ConfigButton({
 	panorama,
 	blur,
 	display,
+	guiScale,
+	maxGuiScale = config.MAX_GUI_SCALE,
 	setPanorama,
 	setBlur,
 	setDisplayMode,
+	setGuiScale,
 }: ConfigButtonProps) {
 	const [displayOption, setDisplayOption] = useState(false);
 
@@ -60,11 +66,37 @@ export function ConfigButton({
 		};
 	}, [displayOption]);
 
+	const guiScaleClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "scale-70";
+			case 2:
+				return "scale-80";
+			case 3:
+				return "scale-90";
+			default:
+				return "scale-100";
+		}
+	})();
+
+	const guiScalePosClassName = (() => {
+		switch (guiScale) {
+			case 1:
+				return "bottom-8 left-0.5";
+			case 2:
+				return "bottom-11 left-2";
+			case 3:
+				return "bottom-15 left-3";
+			default:
+				return "bottom-19 left-5";
+		}
+	})();
+
 	return (
 		<>
 			<button
 				type="button"
-				className="mc-mini-selector fixed bottom-5 left-5 cursor-pointer z-50"
+				className={`mc-mini-selector fixed bottom-5 left-5 cursor-pointer z-50 ${guiScaleClassName}`}
 				onClick={() => {
 					setDisplayOption(!displayOption);
 				}}
@@ -78,8 +110,8 @@ export function ConfigButton({
 			<div
 				id="configuration"
 				className={`${displayOption ? "fixed" : "hidden"} 
-				bg-[#a0a0a0] bottom-19 left-5 p-2! text-center border-3 border-black
-				z-50`}
+				bg-[#a0a0a0] ${guiScalePosClassName} p-2! text-center border-3 border-black
+				z-50 ${guiScaleClassName}`}
 			>
 				<h1 className="font-bold">Configuration</h1>
 				<section className="mb-2!">
@@ -155,6 +187,42 @@ export function ConfigButton({
 						<p className="w-full text-center text-black">{blur}</p>
 					</div>
 					<small className="italic text-[60%] text-gray-700">(not display in Menu)</small>
+				</section>
+				<section
+					className={`mb-2! ${display === DISPLAY_MODE.SELECT ? "opacity-100" : "opacity-50"}`}
+				>
+					<h2 className="underline">Config GUI</h2>
+					<div className="flex justify-center">
+						<button
+							type="button"
+							disabled={maxGuiScale === config.MIN_GUI_SCALE}
+							className={`flex-1 bg-black/25 cursor-pointer hover:outline-2 hover:outline-white 
+								disabled:cursor-not-allowed disabled:bg-[#5f5f5f] disabled:hover:outline-none`}
+							onClick={() => {
+								if (guiScale > config.MIN_GUI_SCALE) {
+									const result = guiScale - 1;
+									setGuiScale(result);
+								} else setGuiScale(maxGuiScale);
+							}}
+						>
+							{"<"}
+						</button>
+						<p className="text-center flex-1">{guiScale}</p>
+						<button
+							type="button"
+							disabled={config.MIN_GUI_SCALE === maxGuiScale}
+							className={`flex-1 bg-black/25 cursor-pointer hover:outline-2 hover:outline-white 
+								disabled:cursor-not-allowed disabled:bg-[#5f5f5f] disabled:hover:outline-none`}
+							onClick={() => {
+								if (guiScale < maxGuiScale) {
+									const result = guiScale + 1;
+									setGuiScale(result);
+								} else setGuiScale(config.MIN_GUI_SCALE);
+							}}
+						>
+							{">"}
+						</button>
+					</div>
 				</section>
 			</div>
 		</>

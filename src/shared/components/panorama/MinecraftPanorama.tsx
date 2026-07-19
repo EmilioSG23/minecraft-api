@@ -63,18 +63,23 @@ export default function MinecraftPanorama({
 	const { activeSection } = useActiveSection();
 
 	return (
-		<div
-			className={`fixed inset-0 overflow-hidden z-0 bg-black pointer-events-none ${className}`}
-			style={{
-				filter: blur > 0 ? `blur(${activeSection === "home" ? 0 : blur}px)` : undefined,
-			}}
-		>
-			<PanoramaCanvas
-				panorama={panorama}
-				autoRotate={autoRotate}
-				rotationSpeed={rotationSpeed}
-				fov={fov}
+		<>
+			<div
+				className={`fixed inset-0 overflow-hidden z-0 ${activeSection !== "home" ? "bg-black/20 pointer-events-none" : ""}`}
 			/>
-		</div>
+			<div
+				className={`fixed inset-0 overflow-hidden -z-1 bg-black pointer-events-none ${className}`}
+				style={{
+					filter: blur > 0 ? `blur(${activeSection === "home" ? 0 : blur}px)` : undefined,
+				}}
+			>
+				<PanoramaCanvas
+					panorama={panorama}
+					autoRotate={autoRotate}
+					rotationSpeed={rotationSpeed}
+					fov={fov}
+				/>
+			</div>
+		</>
 	);
 }

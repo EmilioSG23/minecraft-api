@@ -9,7 +9,7 @@ import { ApiDocsExplorer } from "@/features/documentation/components/ApiDocsExpl
  */
 export function ApiDocsPageClient() {
 	return (
-		<div className="w-full max-w-6xl">
+		<div className="w-full max-w-6xl flex justify-center items-center">
 			<ApiDocsExplorer
 				title="Minecraft API Docs"
 				description="Reference every GET endpoint, inspect parameter templates and execute live requests without leaving the app."

@@ -3,7 +3,7 @@ import {
 	createTextOutput,
 	validateArgs,
 } from "@/features/terminal/commands/command-helpers";
-import { DISPLAY_MODE } from "@/shared/hooks/useConfigBackground";
+import { DISPLAY_MODE } from "@/shared/hooks/useBackgroundConfig";
 
 /**
  * Changes how the terminal background is selected and displayed.

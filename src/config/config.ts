@@ -6,4 +6,6 @@ export const config = {
 	API_URL: API_URL,
 	MIN_PANORAMA_SIZE: 1,
 	MAX_PANORAMA_SIZE: 16,
+	MIN_GUI_SCALE: 1,
+	MAX_GUI_SCALE: 4,
 };

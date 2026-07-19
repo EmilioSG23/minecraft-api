@@ -5,6 +5,7 @@ interface AlertMessageProps {
 	message: string;
 	fontSize?: string;
 	textColor?: string;
+	width?: string;
 	actions?: React.ReactNode;
 }
 
@@ -20,14 +21,16 @@ interface AlertMessageProps {
 export function AlertMessage(props: AlertMessageProps) {
 	const {
 		message,
-		fontSize = "text-[24px] sm:text-[48px]",
+		fontSize = "text-[24px] sm:text-[36px]",
 		textColor = "text-black",
+		width = "max-w-lg",
 		actions,
 	} = props;
+
 	return (
 		<Container
 			className={`fixed left-1/2 top-1/2 -translate-1/2
-				${textColor} text-center p-10! ${fontSize}`}
+				${textColor} text-center p-10! ${fontSize} ${width}`}
 		>
 			{message}
 			{actions && <div className="mt-4! flex justify-center">{actions}</div>}
@@ -71,6 +74,7 @@ export function AlertErrorMessage({ onRetry, message }: AlertErrorMessageProps =
 			message={message || "Error with the fetching of the datas :(, go back and try again..."}
 			fontSize="text-[16px] sm:text-[32px]"
 			textColor="text-red-900"
+			width="max-w-2xl"
 			actions={
 				onRetry ? (
 					<button type="button" className="mc-selector text-white px-4! py-2!" onClick={onRetry}>
