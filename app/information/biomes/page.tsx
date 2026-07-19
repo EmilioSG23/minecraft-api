@@ -5,7 +5,6 @@ import {
 	renderInformationRoute,
 } from "@/features/information/lib/route";
 import { Fallback } from "@/shared/components/Fallback";
-import { Layout } from "@/shared/layout/Layout";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -23,31 +22,27 @@ export const metadata: Metadata = createInformationMetadata({
  * @returns Layout-wrapped biomes client view.
  */
 export default function BiomesPage() {
-	return (
-		<Layout>
-			{renderInformationRoute(
-				{
-					title: "Biomes",
-					description: "Browse all Minecraft biomes with weather and API endpoints.",
-					path: "/information/biomes",
-					pageName: "Minecraft Biomes",
-				},
-				<Suspense
-					fallback={
-						<Fallback
-							definition={{
-								title: "Biomes",
-								description: "Browse all Minecraft biomes with weather and API endpoints.",
-								path: "/information/biomes",
-								pageName: "Minecraft Biomes",
-							}}
-							message="Loading page..."
-						/>
-					}
-				>
-					<BiomesInformationClient />
-				</Suspense>,
-			)}
-		</Layout>
+	return renderInformationRoute(
+		{
+			title: "Biomes",
+			description: "Browse all Minecraft biomes with weather and API endpoints.",
+			path: "/information/biomes",
+			pageName: "Minecraft Biomes",
+		},
+		<Suspense
+			fallback={
+				<Fallback
+					definition={{
+						title: "Biomes",
+						description: "Browse all Minecraft biomes with weather and API endpoints.",
+						path: "/information/biomes",
+						pageName: "Minecraft Biomes",
+					}}
+					message="Loading page..."
+				/>
+			}
+		>
+			<BiomesInformationClient />
+		</Suspense>,
 	);
 }

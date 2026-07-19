@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 
 /** Enables strict checks, unoptimized images and shared cache/CORS headers for API routes. */
 const nextConfig: NextConfig = {
-	reactStrictMode: true,
+	reactStrictMode: false,
 	typescript: {
 		ignoreBuildErrors: false,
 	},

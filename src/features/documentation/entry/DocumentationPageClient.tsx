@@ -1,7 +1,6 @@
 "use client";
 
 /** Client wrapper for the long-form documentation route. */
-import { Layout } from "@/shared/layout/Layout";
 import { Documentation } from "@/features/documentation/components/Documentation";
 
 /**
@@ -10,10 +9,5 @@ import { Documentation } from "@/features/documentation/components/Documentation
  * @returns Documentation view wrapped with layout chrome.
  */
 export function DocumentationPageClient() {
-	return (
-		<Layout>
-			<Documentation />
-		</Layout>
-	);
+	return <Documentation />;
 }
-

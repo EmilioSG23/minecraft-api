@@ -1,4 +1,5 @@
 /** Floating configuration button used to customize the background experience. */
+import { config } from "@/config/config";
 import { DISPLAY_MODE } from "@/shared/hooks/useConfigBackground";
 import { useEffect, useState } from "react";
 
@@ -63,20 +64,22 @@ export function ConfigButton({
 		<>
 			<button
 				type="button"
-				className="mc-mini-selector fixed bottom-5 left-5 cursor-pointer"
+				className="mc-mini-selector fixed bottom-5 left-5 cursor-pointer z-50"
 				onClick={() => {
 					setDisplayOption(!displayOption);
 				}}
 			>
 				<img
 					src="/gui/config.png"
-					className="p-2 w-[48x] h-12"
+					className="p-2 w-[48px] h-12"
 					alt="Config button for custom blur, panorama and display mode"
 				/>
 			</button>
 			<div
 				id="configuration"
-				className={`${displayOption ? "fixed" : "hidden"} bg-[#a0a0a0] bottom-19 left-5 p-2! text-center border-3 border-black`}
+				className={`${displayOption ? "fixed" : "hidden"} 
+				bg-[#a0a0a0] bottom-19 left-5 p-2! text-center border-3 border-black
+				z-50`}
 			>
 				<h1 className="font-bold">Configuration</h1>
 				<section className="mb-2!">
@@ -112,21 +115,21 @@ export function ConfigButton({
 							className={`flex-1 bg-black/25 ${display === DISPLAY_MODE.SELECT ? "cursor-pointer hover:outline-2 hover:outline-white" : ""}`}
 							disabled={display === DISPLAY_MODE.RANDOM}
 							onClick={() => {
-								if (panorama > 1) {
+								if (panorama > config.MIN_PANORAMA_SIZE) {
 									const result = panorama - 1;
 									setPanorama(result);
-								} else setPanorama(10);
+								} else setPanorama(config.MAX_PANORAMA_SIZE);
 							}}
 						>
 							{"<"}
 						</button>
-						<p className="text-center flex-2">{panorama}</p>
+						<p className="text-center flex-1">{panorama}</p>
 						<button
 							type="button"
 							className={`flex-1 bg-black/25 ${display === DISPLAY_MODE.SELECT ? "cursor-pointer hover:outline-2 hover:outline-white" : ""}`}
 							disabled={display === DISPLAY_MODE.RANDOM}
 							onClick={() => {
-								if (panorama < 10) {
+								if (panorama < config.MAX_PANORAMA_SIZE) {
 									const result = panorama + 1;
 									setPanorama(result);
 								} else setPanorama(1);

@@ -70,7 +70,7 @@ export function Header() {
 	if (activeSection === "home") return null;
 
 	return (
-		<header className="sticky top-0 z-50">
+		<header className="sticky top-0 z-50 font-main">
 			<nav className="w-full flex items-center justify-center border-b-2 border-gray-400 bg-black/25">
 				<div className="flex justify-between items-end gap-x-4 max-w-6xl px-5 mx-auto h-8 sm:h-12 md:h-16">
 					<HeaderLink path="/" section="home" width="min-w-8" icon="fa-home" />
@@ -95,4 +95,3 @@ export function Header() {
 		</header>
 	);
 }
-

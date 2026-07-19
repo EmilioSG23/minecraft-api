@@ -5,7 +5,6 @@ import {
 	renderInformationRoute,
 } from "@/features/information/lib/route";
 import { Fallback } from "@/shared/components/Fallback";
-import { Layout } from "@/shared/layout/Layout";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -23,31 +22,27 @@ export const metadata: Metadata = createInformationMetadata({
  * @returns Layout-wrapped blocks client view.
  */
 export default function BlocksPage() {
-	return (
-		<Layout>
-			{renderInformationRoute(
-				{
-					title: "Blocks",
-					description: "Browse all Minecraft blocks with properties and API endpoints.",
-					path: "/information/blocks",
-					pageName: "Minecraft Blocks",
-				},
-				<Suspense
-					fallback={
-						<Fallback
-							definition={{
-								title: "Blocks",
-								description: "Browse all Minecraft blocks with properties and API endpoints.",
-								path: "/information/blocks",
-								pageName: "Minecraft Blocks",
-							}}
-							message="Loading page..."
-						/>
-					}
-				>
-					<BlocksInformationClient />
-				</Suspense>,
-			)}
-		</Layout>
+	return renderInformationRoute(
+		{
+			title: "Blocks",
+			description: "Browse all Minecraft blocks with properties and API endpoints.",
+			path: "/information/blocks",
+			pageName: "Minecraft Blocks",
+		},
+		<Suspense
+			fallback={
+				<Fallback
+					definition={{
+						title: "Blocks",
+						description: "Browse all Minecraft blocks with properties and API endpoints.",
+						path: "/information/blocks",
+						pageName: "Minecraft Blocks",
+					}}
+					message="Loading page..."
+				/>
+			}
+		>
+			<BlocksInformationClient />
+		</Suspense>,
 	);
 }

@@ -5,7 +5,6 @@ import {
 	renderInformationRoute,
 } from "@/features/information/lib/route";
 import { Fallback } from "@/shared/components/Fallback";
-import { Layout } from "@/shared/layout/Layout";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -23,31 +22,27 @@ export const metadata: Metadata = createInformationMetadata({
  * @returns Layout-wrapped items client view.
  */
 export default function ItemsPage() {
-	return (
-		<Layout>
-			{renderInformationRoute(
-				{
-					title: "Items",
-					description: "Browse all Minecraft items with properties and API endpoints.",
-					path: "/information/items",
-					pageName: "Minecraft Items",
-				},
-				<Suspense
-					fallback={
-						<Fallback
-							definition={{
-								title: "Items",
-								description: "Browse all Minecraft items with properties and API endpoints.",
-								path: "/information/items",
-								pageName: "Minecraft Items",
-							}}
-							message="Loading page..."
-						/>
-					}
-				>
-					<ItemsInformationClient />
-				</Suspense>,
-			)}
-		</Layout>
+	return renderInformationRoute(
+		{
+			title: "Items",
+			description: "Browse all Minecraft items with properties and API endpoints.",
+			path: "/information/items",
+			pageName: "Minecraft Items",
+		},
+		<Suspense
+			fallback={
+				<Fallback
+					definition={{
+						title: "Items",
+						description: "Browse all Minecraft items with properties and API endpoints.",
+						path: "/information/items",
+						pageName: "Minecraft Items",
+					}}
+					message="Loading page..."
+				/>
+			}
+		>
+			<ItemsInformationClient />
+		</Suspense>,
 	);
 }

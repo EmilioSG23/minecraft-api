@@ -5,9 +5,10 @@ interface BackgroundProps {
 	panorama: number;
 	blur: number;
 }
+// marcar como deprecated
 
 /**
- * Renders the layered backdrop and blur overlay for the active layout.
+ * @deprecated Renders the layered backdrop and blur overlay for the active layout.
  *
  * @param props.panorama Panorama index used to select the background image.
  * @param props.blur Blur intensity applied outside the home route.
@@ -30,4 +31,3 @@ export function Background({ panorama, blur }: BackgroundProps) {
 		</>
 	);
 }
-

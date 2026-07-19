@@ -2,7 +2,6 @@
 
 /** Client wrapper used by the information index route. */
 import { InformationSection } from "@/features/information/components/InformationSection";
-import { Layout } from "@/shared/layout/Layout";
 
 /**
  * Renders the information hub inside the shared layout.
@@ -11,9 +10,8 @@ import { Layout } from "@/shared/layout/Layout";
  */
 export function InformationPageClient() {
 	return (
-		<Layout childrenWidth="max-w-3xl">
+		<div className="w-full max-w-3xl">
 			<InformationSection />
-		</Layout>
+		</div>
 	);
 }
-

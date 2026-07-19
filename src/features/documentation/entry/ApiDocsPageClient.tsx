@@ -1,6 +1,5 @@
 "use client";
 
-import { Layout } from "@/shared/layout/Layout";
 import { ApiDocsExplorer } from "@/features/documentation/components/ApiDocsExplorer";
 
 /**
@@ -10,12 +9,11 @@ import { ApiDocsExplorer } from "@/features/documentation/components/ApiDocsExpl
  */
 export function ApiDocsPageClient() {
 	return (
-		<Layout childrenWidth="w-full max-w-6xl">
+		<div className="w-full max-w-6xl">
 			<ApiDocsExplorer
 				title="Minecraft API Docs"
 				description="Reference every GET endpoint, inspect parameter templates and execute live requests without leaving the app."
 			/>
-		</Layout>
+		</div>
 	);
 }
-

@@ -1,3 +1,4 @@
+import { config } from "@/config/config";
 import {
 	createErrorOutput,
 	createTextOutput,
@@ -14,13 +15,18 @@ import {
 export function executePanorama(args: string[], setPanorama: (panorama: number) => void) {
 	const err = validateArgs(1, args, '/setpanorama "<panorama>" (1-10)');
 	if (err) return err;
+
 	const panorama = Number(args[0]);
 	if (!Number.isFinite(panorama)) {
-		return createErrorOutput("Input Error: The input value must be a number between 1 and 10.");
+		return createErrorOutput(
+			`Input Error: The input value must be a number between ${config.MIN_PANORAMA_SIZE} and ${config.MAX_PANORAMA_SIZE}.`,
+		);
 	}
-	if (panorama >= 1 && panorama <= 10) {
+	if (panorama >= config.MIN_PANORAMA_SIZE && panorama <= config.MAX_PANORAMA_SIZE) {
 		setPanorama(panorama);
 		return createTextOutput(`The panorama has changed to a new panorama: ${panorama}`);
 	}
-	return createErrorOutput("Input Error: The input value must be a number between 1 and 10.");
+	return createErrorOutput(
+		`Input Error: The input value must be a number between ${config.MIN_PANORAMA_SIZE} and ${config.MAX_PANORAMA_SIZE}.`,
+	);
 }

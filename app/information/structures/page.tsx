@@ -5,7 +5,6 @@ import {
 	renderInformationRoute,
 } from "@/features/information/lib/route";
 import { Fallback } from "@/shared/components/Fallback";
-import { Layout } from "@/shared/layout/Layout";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -23,31 +22,27 @@ export const metadata: Metadata = createInformationMetadata({
  * @returns Layout-wrapped structures client view.
  */
 export default function StructuresPage() {
-	return (
-		<Layout>
-			{renderInformationRoute(
-				{
-					title: "Structures",
-					description: "Browse all Minecraft structures and API endpoints.",
-					path: "/information/structures",
-					pageName: "Minecraft Structures",
-				},
-				<Suspense
-					fallback={
-						<Fallback
-							definition={{
-								title: "Structures",
-								description: "Browse all Minecraft structures and API endpoints.",
-								path: "/information/structures",
-								pageName: "Minecraft Structures",
-							}}
-							message="Loading page..."
-						/>
-					}
-				>
-					<StructuresInformationClient />
-				</Suspense>,
-			)}
-		</Layout>
+	return renderInformationRoute(
+		{
+			title: "Structures",
+			description: "Browse all Minecraft structures and API endpoints.",
+			path: "/information/structures",
+			pageName: "Minecraft Structures",
+		},
+		<Suspense
+			fallback={
+				<Fallback
+					definition={{
+						title: "Structures",
+						description: "Browse all Minecraft structures and API endpoints.",
+						path: "/information/structures",
+						pageName: "Minecraft Structures",
+					}}
+					message="Loading page..."
+				/>
+			}
+		>
+			<StructuresInformationClient />
+		</Suspense>,
 	);
 }

@@ -1,12 +1,12 @@
 "use client";
 
 /** Shared layout that applies background configuration, header and fixed action buttons. */
-import { Background } from "@/shared/components/Background";
 import { ConfigButton } from "@/shared/components/buttons/ConfigButton";
 import { GitHubButton } from "@/shared/components/buttons/GitHubButton";
 import { Header } from "@/shared/components/Header";
 import { useConfigBackground } from "@/shared/hooks/useConfigBackground";
-import { useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
+import MinecraftPanorama from "../components/panorama/MinecraftPanorama";
 
 /**
  * Plays the selector sound effect when the user clicks links or buttons.
@@ -40,10 +40,12 @@ export interface BackgroundConfig {
 }
 
 interface LayoutProps {
-	children: React.ReactNode | ((config: BackgroundConfig) => React.ReactNode);
+	children: React.ReactNode;
 	className?: string;
 	childrenWidth?: string;
 }
+
+const BackgroundConfigContext = createContext<BackgroundConfig | null>(null);
 
 /**
  * Wraps route content with the common app chrome and background controls.
@@ -60,25 +62,27 @@ export function Layout({ children, className = "", childrenWidth = "max-w-6xl" }
 	const config: BackgroundConfig = { changePanorama, changeBlur, changeDisplayMode };
 
 	return (
-		<main className={`overflow-x-hidden font-main ${className}`.trim()}>
-			<SelectionSoundEffect />
-			<Background panorama={panorama} blur={blur} />
+		<BackgroundConfigContext.Provider value={config}>
 			<Header />
-			<main className="w-full flex items-center justify-center my-4! py-4!">
-				<div className={`w-full ${childrenWidth} items-center justify-center flex`}>
-					{typeof children === "function" ? children(config) : children}
-				</div>
+			<main className={`relative isolate overflow-x-hidden font-main ${className}`.trim()}>
+				<SelectionSoundEffect />
+				<MinecraftPanorama panorama={panorama} blur={blur} />
+				<main className="relative z-10 w-full flex items-center justify-center my-4! py-4!">
+					<div className={`w-full ${childrenWidth} items-center justify-center flex`}>
+						{children}
+					</div>
+				</main>
+				<ConfigButton
+					panorama={panorama}
+					blur={blur}
+					setPanorama={changePanorama}
+					setBlur={changeBlur}
+					display={displayMode}
+					setDisplayMode={changeDisplayMode}
+				/>
+				<GitHubButton />
 			</main>
-			<ConfigButton
-				panorama={panorama}
-				blur={blur}
-				setPanorama={changePanorama}
-				setBlur={changeBlur}
-				display={displayMode}
-				setDisplayMode={changeDisplayMode}
-			/>
-			<GitHubButton />
-		</main>
+		</BackgroundConfigContext.Provider>
 	);
 }
 
@@ -89,6 +93,11 @@ export function Layout({ children, className = "", childrenWidth = "max-w-6xl" }
  * @returns Same configuration API exposed internally by the layout component.
  */
 export function useLayoutConfig() {
-	return useConfigBackground();
-}
+	const config = useContext(BackgroundConfigContext);
 
+	if (!config) {
+		throw new Error("useLayoutConfig must be used inside Layout");
+	}
+
+	return config;
+}

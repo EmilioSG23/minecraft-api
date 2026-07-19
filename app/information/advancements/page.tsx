@@ -5,7 +5,6 @@ import {
 	renderInformationRoute,
 } from "@/features/information/lib/route";
 import { Fallback } from "@/shared/components/Fallback";
-import { Layout } from "@/shared/layout/Layout";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 
@@ -23,31 +22,27 @@ export const metadata: Metadata = createInformationMetadata({
  * @returns Layout-wrapped advancements client view.
  */
 export default function AdvancementsPage() {
-	return (
-		<Layout>
-			{renderInformationRoute(
-				{
-					title: "Advancements",
-					description: "Browse all Minecraft advancements and API endpoints.",
-					path: "/information/advancements",
-					pageName: "Minecraft Advancements",
-				},
-				<Suspense
-					fallback={
-						<Fallback
-							definition={{
-								title: "Advancements",
-								description: "Browse all Minecraft advancements and API endpoints.",
-								path: "/information/advancements",
-								pageName: "Minecraft Advancements",
-							}}
-							message="Loading page..."
-						/>
-					}
-				>
-					<AdvancementsInformationClient />
-				</Suspense>,
-			)}
-		</Layout>
+	return renderInformationRoute(
+		{
+			title: "Advancements",
+			description: "Browse all Minecraft advancements and API endpoints.",
+			path: "/information/advancements",
+			pageName: "Minecraft Advancements",
+		},
+		<Suspense
+			fallback={
+				<Fallback
+					definition={{
+						title: "Advancements",
+						description: "Browse all Minecraft advancements and API endpoints.",
+						path: "/information/advancements",
+						pageName: "Minecraft Advancements",
+					}}
+					message="Loading page..."
+				/>
+			}
+		>
+			<AdvancementsInformationClient />
+		</Suspense>,
 	);
 }

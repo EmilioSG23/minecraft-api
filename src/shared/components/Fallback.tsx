@@ -1,6 +1,5 @@
 import { renderInformationRoute } from "@/features/information/lib/route";
 import { AlertMessage } from "@/shared/components/AlertMessage";
-import { Layout } from "@/shared/layout/Layout";
 
 interface Definition {
 	title?: string;
@@ -16,19 +15,15 @@ interface Props {
 
 export function Fallback({ definition, message = "Loading page..." }: Props) {
 	const content = <AlertMessage message={message} />;
-	return (
-		<Layout>
-			{definition && definition.title
-				? renderInformationRoute(
-						{
-							title: definition.title || "",
-							description: definition.description || "",
-							path: definition.path || "",
-							pageName: definition.pageName || definition.title || "",
-						},
-						content,
-					)
-				: content}
-		</Layout>
-	);
+	return definition && definition.title
+		? renderInformationRoute(
+				{
+					title: definition.title || "",
+					description: definition.description || "",
+					path: definition.path || "",
+					pageName: definition.pageName || definition.title || "",
+				},
+				content,
+			)
+		: content;
 }
